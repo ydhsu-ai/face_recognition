@@ -5,10 +5,19 @@ import imutils
 import face_recognition
 import cv2
 
-cv2.__version__
+print("cv2 version = ", cv2.__version__)
+#print("Movidius 2 sw version =", mvncapi.__version__)
+
+device_list = mvncapi.enumerate_devices()
+
+if(len(device_list) < 1):
+    print("Error, No Movidius 2 stick is attached...")
+    quit()
+
+device = mvncapi.Device(device_list[0])
+print("Movidius 2 hw version =", device.get_option(mvncapi.DeviceOption.RO_DEVICE_NAME))
 
 video_capture = cv2.VideoCapture(0)
-    
 
 # Load a sample picture and learn how to recognize it.
 ydhsu_image = face_recognition.load_image_file("./pic/ydhsu.jpg")
@@ -114,6 +123,6 @@ while True:
         break
 
 # Release handle to the webcam
-
+device.destroy()
 video_capture.release()
 cv2.destroyAllWindows()
