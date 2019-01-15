@@ -2,7 +2,7 @@ import cv2
 import face_recognition
 from PIL import Image, ImageDraw
 import numpy as np
-
+import imutils
 
 def PIL2array(img):
     """ Convert a PIL/Pillow image to a numpy array """
@@ -56,16 +56,19 @@ class FaceLandMarkDetection:
         return PIL2array(pil_image)
 
 video_capture = cv2.VideoCapture(0)
-video_capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
-video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
 
+##video_capture.set(cv2.CAP_PROP_FRAME_WIDTH,  800)
+##video_capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 600)
 
 face_landmark_detection = FaceLandMarkDetection()
-down_sampling = True
+
+#down_sampling = True
+down_sampling = False
+
 while True:
     # Grab a single frame of video
     ret, frame = video_capture.read()
-    
+
     if down_sampling:
         small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
 
